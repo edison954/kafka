@@ -80,7 +80,25 @@ Topic Replication factor
  - This way if a broker is down, another broker can serve the data
 
 
+Leader for a Partition
+-----------------
 
+- At any time only ONE broker can be a leader for a given partition
+- Only that leader can receive and serve data for a partition
+- The other brokers will syncronize the data
+- therefore each partition has one leader and multiple ISR (in-sync replica)
+
+Producers
+-----------------
+ - Producers write data to topics (which is made of partitions)
+ - Producers automatically know to which broker and partition to write to
+ - In case of broker failure, Producers will automatically recover
+ - Producers can choose to receive acknowledgment of data writes
+    - acks=0: Producer won't wait for acknowledgement (posible data loss)
+    - acks=1: Producer will wait for leader acknowledgment (limited data loss)
+    - acks=all: Leader + replicas acknowledgment (no data loss)
+
+    
 
 
 
