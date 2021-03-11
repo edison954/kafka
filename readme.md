@@ -37,5 +37,34 @@ https://cinlogic.com/2020/01/10/getting-started-with-kafka-using-dotnet-core.htm
 https://www.c-sharpcorner.com/article/c-sharp-web-api-with-apache-kafka-integration/
 
 Course udemy 
+---------------------
 https://courses.datacumulus.com/downloads/kafka-beginners-bu5/
 https://github.com/simplesteph/kafka-beginners-course
+
+
+Topics, Partitions and offsets
+---------------------
+
+Topics: a particular stream of data
+are split in partitios
+ - each partition is ordered
+ - each message within a partition gets an incremental id, called offset
+ - offset only have a meaning for a specific partition
+ - Order is guaranteed only within a partition (no across partitions)
+ - Data is kept only for a lmited time (default is one week)
+ - once the data is written to a partition, it cant be changed (immutability)
+ - Data is assined randomly to a partition unless a key is provided
+
+Brokers
+-----------------
+
+- a Kafka cluster is composed of multiple brokers (servers)
+
+
+
+
+
+
+
+
+
