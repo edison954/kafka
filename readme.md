@@ -97,8 +97,52 @@ Producers
     - acks=0: Producer won't wait for acknowledgement (posible data loss)
     - acks=1: Producer will wait for leader acknowledgment (limited data loss)
     - acks=all: Leader + replicas acknowledgment (no data loss)
+ - Producers can choose to send a Key with the message ( string, number, etc)
+ - if key=null, data is sent round robin (broker 101 then 102 then 102),...
+ - if a key is sent, then all messages for that key will always go to the same partition
+ - a key is basically sent if you need message ordering for a specific field 
 
-    
+Consumers
+-----------------
+ - Consumers read data from a topic (identified by name)
+ - Consumers know which broker to read from
+ - In case of broker failure, consumers know how to recover
+ - Data is read in order within each partitions
+
+ Consumer Groups
+-----------------
+ - Consumers read data in consumer groups
+ - Each consumer within a group reads from exclusive partitions
+ - if you have more consumers than partitions, some consumers will be inactive
+
+Consumer Offsets
+-----------------
+ - Kafka stores the offsets at which a consumer group has been reading
+ - The offsets committed live in a Kafka topic named __consumer_offsets
+ - When a consumer in a group has processed data received from Kafka, it shoud be commiting the offsets
+ - If a consumer dies, it will be able to read back from where it left off thanks to the committed consumer offsets
+
+Delivery semantics for consumers
+-----------------
+ - Consumers choose when to commit offsets
+ - There are 3 delivery semantics:
+    - At most once: 
+        - offsets are commited as soon as the message is received
+        - if the processing goes wrong, the message will be lost (it wont be read again)
+    - At least once (usually preferred)
+        - offsets are committed after the message is processed
+        - if the processing goes wrong, the message will be read again
+        - this can result in duplicate processing of messages, Make sure your processing is idempotent
+    - Exactly once:
+        - Can be archieved for kafka => Kafka workflows using kafka stream api
+        - For Kafka => External system workflows, use an idempotent consumer
+        
+
+
+
+
+
+
 
 
 
